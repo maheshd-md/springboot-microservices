@@ -1,0 +1,20 @@
+server:
+  port: 9093
+  
+spring:
+  application:
+    name: kafka-producer-service
+  
+  kafka:
+    producer:
+      bootstrap-servers: http://localhost:9092
+      key-serializer: com.example.demo.BookSerializer
+      value-serializer: com.example.demo.BookSerializer
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+      

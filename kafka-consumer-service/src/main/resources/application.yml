@@ -1,0 +1,19 @@
+server:
+  port: 9094
+  
+spring:
+  application:
+    name: kafka-consumer-service
+  kafka:
+    consumer:
+      bootstrap-servers: http://localhost:9092
+      key-deserializer: com.example.demo.BookDeserializer
+      value-deserializer: com.example.demo.BookDeserializer    
+    
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+      
