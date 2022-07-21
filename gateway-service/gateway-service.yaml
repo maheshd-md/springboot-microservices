@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: gateway-service
+  name: gateway-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+      - image: maheshd4077/springboot-microservices:gateway-service-V1.0
+        name: springboot-microservices
+        resources: {}
+        env:
+        - name: management.endpoints.web.exposure.include
+          value: "*"
+        - name: db-service.ribbon.ReadTimeout
+          value: "1000"
+        - name: book-service.ribbon.ReadTimeout
+          value: "1000"
+        - name: eureka.instance.preferIpAddress
+          value: "true"
+        - name: eureka.client.service-url.defaultZone
+          value: http://10.99.182.83:8761/eureka
+        - name: kafka.producer.bootstrap-servers
+          value: http://10.102.26.252:9092
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: gateway-service
+  name: gateway-service
+spec:
+  ports:
+  - name: "8080"
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: gateway-service
+  type: NodePort
+status:
+  loadBalancer: {}

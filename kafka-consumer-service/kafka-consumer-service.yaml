@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: kafka-consumer-service
+  name: kafka-consumer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kafka-consumer-service
+    spec:
+      containers:
+      - image: maheshd4077/springboot-microservices:kafka-consumer-service-V1.0
+        name: springboot-microservices
+        resources: {}
+        env:
+        - name: eureka.instance.preferIpAddress
+          value: "true"
+        - name: eureka.client.service-url.defaultZone
+          value: http://10.99.182.83:8761/eureka
+        - name: kafka.producer.bootstrap-servers
+          value: http://10.102.26.252:9092
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: kafka-consumer-service
+  name: kafka-consumer-service
+spec:
+  ports:
+  - name: "9094"
+    port: 9094
+    protocol: TCP
+    targetPort: 9094
+  selector:
+    app: kafka-consumer-service
+  type: ClusterIP
+status:
+  loadBalancer: {}

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: eureka-server
+  name: eureka-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eureka-server
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: eureka-server
+    spec:
+      containers:
+      - image: maheshd4077/springboot-microservices:eureka-service-V1.0
+        name: springboot-microservices
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: eureka-server
+  name: eureka-server
+spec:
+  ports:
+  - name: "8761"
+    port: 8761
+    protocol: TCP
+    targetPort: 8761
+  selector:
+    app: eureka-server
+  type: NodePort
+status:
+  loadBalancer: {}
